@@ -1,6 +1,8 @@
+from loguru import logger
 from fastapi import APIRouter, Body
+from fastapi import FastAPI, Form, HTTPException
+from http import HTTPStatus
 from fastapi.encoders import jsonable_encoder
-
 from server.database import AsyncMongoConnect
 from server.models.student import (
     ErrorResponseModel,
@@ -70,3 +72,20 @@ async def delete_a_student(id: str):
         "There was an error updating the student data.",
     )
     
+
+@router.post("/test")
+async def test(username: str = Form(None), password: str = Form(None)):
+    try:
+        result = 100 / 0
+        return {
+            "username": username,
+            "password": password
+        }
+    except Exception as e:
+        logger.exception(f"{e}")
+        raise HTTPException(
+            (
+                HTTPStatus.INTERNAL_SERVER_ERROR,
+                f"fail error: {e}",
+            )
+        )
