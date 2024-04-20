@@ -4,3 +4,4 @@ uvicorn==0.17.4
 pydantic[email]
 motor==2.5.1
 loguru
+web3tooldex
